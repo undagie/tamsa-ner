@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# Generated at runtime (do not commit)
+outputs/
+comparison_results/
+multiple_runs_progress.json
+_temp_wrapper_*.py
+
+# Large/regeneratable artifacts (optional: remove if you want to track them)
+# *.pt
+# outputs/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb

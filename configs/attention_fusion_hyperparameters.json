@@ -1,0 +1,15 @@
+{
+    "transformer_model": "indobenchmark/indobert-base-p1",
+    "transformer_dim": 768,
+    "w2v_embedding_dim": 300,
+    "char_embedding_dim": 50,
+    "char_cnn_filters": 50,
+    "char_cnn_kernel_size": 3,
+    "lstm_hidden_dim": 256,
+    "lstm_layers": 1,
+    "dropout": 0.3,
+    "learning_rate": 1e-05,
+    "epochs": 100,
+    "batch_size": 8,
+    "early_stopping_patience": 15
+}

@@ -1,0 +1,11 @@
+{
+    "transformer_model": "bert-base-multilingual-cased",
+    "transformer_dim": 768,
+    "lstm_hidden_dim": 256,
+    "lstm_layers": 1,
+    "dropout": 0.3,
+    "learning_rate": 5e-05,
+    "epochs": 100,
+    "batch_size": 8,
+    "early_stopping_patience": 15
+}

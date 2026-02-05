@@ -1,0 +1,15 @@
+{
+    "w2v_embedding_dim": 300,
+    "char_embedding_dim": 50,
+    "char_cnn_filters": 50,
+    "char_cnn_kernel_size": 3,
+    "lstm_hidden_dim": 256,
+    "lstm_layers": 1,
+    "dropout": 0.3,
+    "learning_rate": 0.001,
+    "epochs": 100,
+    "batch_size": 16,
+    "early_stopping_patience": 15,
+    "gradient_accumulation_steps": 2,
+    "use_amp": true
+}

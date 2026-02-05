@@ -1,0 +1,14 @@
+{
+  "word_vocab_size": 6796,
+  "char_vocab_size": 81,
+  "tag_vocab_size": 7,
+  "tags": [
+    "O",
+    "B-LOC",
+    "B-PER",
+    "I-LOC",
+    "B-ORG",
+    "I-ORG",
+    "I-PER"
+  ]
+}
