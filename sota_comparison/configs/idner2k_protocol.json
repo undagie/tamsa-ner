@@ -1,0 +1,29 @@
+{
+  "dataset": "IDNer2k",
+  "description": "Protocol for SOTA comparison: same dataset, splits, preprocessing, and metrics as main experiments (train_*).",
+  "paths": {
+    "data_root": "../data/idner2k",
+    "train": "../data/idner2k/train_bio.txt",
+    "dev": "../data/idner2k/dev_bio.txt",
+    "test": "../data/idner2k/test_bio.txt"
+  },
+  "paths_note": "From project root, main experiments use ./data/idner2k/; from sota_comparison, data_root resolves to same folder.",
+  "splits": {
+    "train_sentences": 1464,
+    "dev_sentences": 367,
+    "test_sentences": 509
+  },
+  "entity_types": ["PER", "ORG", "LOC"],
+  "bio_scheme": "IOB2",
+  "metrics": {
+    "primary": "weighted avg f1-score",
+    "secondary": ["weighted avg precision", "weighted avg recall"]
+  },
+  "seeds": [42, 123, 456, 789, 1011],
+  "num_runs": 5,
+  "training": {
+    "max_epochs": 100,
+    "early_stopping_patience": 15,
+    "early_stopping_metric": "validation F1 (weighted or micro)"
+  }
+}
