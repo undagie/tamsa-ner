@@ -18,17 +18,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 from transformers import AutoTokenizer, AutoModel
+
+_ROOT = Path(__file__).resolve().parent.parent
 import json
 import sys
 from collections import Counter
 
-OUTPUT_DIR = Path("./outputs/experiment_attention_fusion")
-VISUALIZATION_DIR = Path("./outputs/attention_visualization")
+OUTPUT_DIR = _ROOT / "outputs" / "experiment_attention_fusion"
+VISUALIZATION_DIR = _ROOT / "outputs" / "attention_visualization"
 VISUALIZATION_DIR.mkdir(parents=True, exist_ok=True)
 BEST_MODEL_PATH = OUTPUT_DIR / "attention-fusion-crf-best.pt"
 HP_PATH = OUTPUT_DIR / "hyperparameters.json"
 VOCAB_PATH = OUTPUT_DIR / "vocab.json"
-TEST_FILE = Path("./data/idner2k/test_bio.txt")
+TEST_FILE = _ROOT / "data" / "idner2k" / "test_bio.txt"
 
 
 class CharCNN(nn.Module):

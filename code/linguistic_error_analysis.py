@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 from collections import Counter, defaultdict
+
+_ROOT = Path(__file__).resolve().parent.parent
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
@@ -12,7 +14,7 @@ from typing import List, Dict, Tuple
 import warnings
 warnings.filterwarnings('ignore')
 
-OUTPUT_DIR = Path('./outputs/linguistic_error_analysis')
+OUTPUT_DIR = _ROOT / "outputs" / "linguistic_error_analysis"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Indonesian NER: prefixes, suffixes, particles, titles, org/loc indicators
@@ -400,11 +402,11 @@ def main():
     models = ['bilstm', 'bilstm_w2v', 'bilstm_w2v_cnn', 'indobert', 'indobert_bilstm',
               'mbert_bilstm', 'xlm_roberta_bilstm', 'attention_fusion']
     for model in models:
-        exp_pred = Path(f'./outputs/experiment_{model}/test_predictions.txt')
+        exp_pred = _ROOT / "outputs" / f"experiment_{model}" / "test_predictions.txt"
         if exp_pred.exists():
             prediction_files.append((model, exp_pred))
         for dataset in ['nerui', 'nerugm']:
-            eval_pred = Path(f'./outputs/evaluation_{dataset}_{model}/test_predictions.txt')
+            eval_pred = _ROOT / "outputs" / f"evaluation_{dataset}_{model}" / "test_predictions.txt"
             if eval_pred.exists():
                 prediction_files.append((f'{model}_{dataset}', eval_pred))
     

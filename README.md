@@ -21,28 +21,41 @@ Reproducibility code for the experiments is intended for public release (e.g. ht
   - `train_attention_fusion.py` — TAMSA (proposed)
 - **Evaluation scripts** for cross-dataset testing (NER-UI, NER-UGM), including `evaluate_indobert_only_on_nerui.py` for IndoBERT-CRF on NER-UI
 - **Analysis scripts:** ablation, efficiency, error analysis, multiple runs (5 seeds), statistical tests, per-entity analysis, learning curves, attention visualization
-- **Utility scripts:** `run_all_experiments_and_evaluations.py`, `predict_sentence.py`
+- **Utility scripts:** `predict_sentence.py`
 
-### 2. Data (`data/`)
+### 2. Runners (package root)
+
+Run from the **reproducibility_package** directory:
+
+- **`run_all_experiments_and_evaluations.py`** — Run all training, evaluation, and analysis in one go (fully automated).
+- **`run_experiments_step_by_step.py`** — Interactive menu: run all pipeline, run a specific stage, epoch/multiple-runs/statistical analysis, show progress, reset progress. Progress is saved so you can resume later.
+
+### 3. Data (`data/`)
 
 - Sample or full data for IDNer2k, NER-UGM, and NER-UI (see `data/README.md`)
 - BIO tagging format; see paper for dataset references
 
-### 3. Configurations (`configs/`)
+### 4. Configurations (`configs/`)
 
 - Hyperparameter JSON files for all models (Table 1 in paper)
 - Vocabulary summaries
 
-### 4. Results (`results/`)
+### 5. Results (`results/`)
 
 - Training histories, classification reports, cross-dataset and analysis outputs (optional; regenerate by running scripts)
 
-### 5. Scripts (`scripts/`)
+### 6. Scripts (`scripts/`)
 
-- `run_all_experiments.py` — Train all 8 models, run cross-dataset evaluations, then run analyses
 - `quick_evaluate.py` — Evaluate a single model
 
-### 6. Documentation (`docs/`)
+### 7. SOTA Comparison (`sota_comparison/`) — Paper Table 3
+
+- **GLiNER** (zero-shot and fine-tuned on IDNer2k) and **NusaBERT-NER** (inference-only and fine-tuned), same dataset/splits/metrics as main experiments.
+- Run from package root: `python sota_comparison/run_all_sota.py`
+- Requires: `pip install -r sota_comparison/requirements_sota.txt`; for GLiNER fine-tuning add `sota_comparison/requirements_gliner_training.txt`.
+- See `sota_comparison/README.md` for details and optional steps.
+
+### 8. Documentation (`docs/`)
 
 - Setup guide, result interpretation, troubleshooting
 
@@ -73,14 +86,19 @@ Reproducibility code for the experiments is intended for public release (e.g. ht
    # or: python code/train_attention_fusion.py  # TAMSA
    ```
 
-4. **Run all experiments (training + cross-dataset eval + analyses)**
+4. **Run all experiments (training + evaluation + analysis)**
    ```bash
-   python scripts/run_all_experiments.py
+   python run_all_experiments_and_evaluations.py
+   ```
+   Or run step-by-step with progress saving:
+   ```bash
+   python run_experiments_step_by_step.py
    ```
 
 ## Reproducing Paper Results
 
-- **Table 2 & 3 (main results, per-seed F1):** Train all 8 models, then run `python code/multiple_runs_analysis.py` with seeds 42, 123, 456, 789, 1011 (five runs).
+- **Table 2 (main results, per-seed F1):** Train all 8 models, then run `python code/multiple_runs_analysis.py` with seeds 42, 123, 456, 789, 1011 (five runs).
+- **Table 3 (SOTA comparison):** Run `python sota_comparison/run_all_sota.py` (GLiNER zero-shot and fine-tuned, NusaBERT-NER inference and fine-tuned; same IDNer2k splits and seqeval IOB2 metrics). See `sota_comparison/README.md`.
 - **Table 4 (statistical significance):** After multiple runs, run `python code/statistical_tests_comprehensive.py`.
 - **Table 5 (per-entity):** `python code/per_entity_analysis.py`
 - **Table 6 (ablation):** `python code/ablation_study.py`
@@ -95,6 +113,7 @@ Reproducibility code for the experiments is intended for public release (e.g. ht
 - Checkpoints: `outputs/experiment_*/` (e.g. `experiment_indobert/`, `experiment_attention_fusion/`)
 - Cross-dataset: `outputs/evaluation_nerui_*/`, `outputs/cross_dataset_evaluation/`
 - Multiple runs: `outputs/multiple_runs/`
+- SOTA comparison: `sota_comparison/outputs/` (gliner, nusabert, gliner_finetuned, nusabert_finetuned, reports)
 - Figures and reports in the corresponding output directories
 
 ## Citation

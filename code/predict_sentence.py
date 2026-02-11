@@ -4,7 +4,8 @@ import torch.nn as nn
 from pathlib import Path
 from transformers import AutoTokenizer, AutoModel
 
-EXPERIMENT_DIR = Path("./outputs/experiment_attention_fusion")
+_ROOT = Path(__file__).resolve().parent.parent
+EXPERIMENT_DIR = _ROOT / "outputs" / "experiment_attention_fusion"
 BEST_MODEL_PATH = EXPERIMENT_DIR / "attention-fusion-crf-best.pt"
 VOCAB_PATH = EXPERIMENT_DIR / "vocab.json"
 HP_PATH = EXPERIMENT_DIR / "hyperparameters.json"

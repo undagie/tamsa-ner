@@ -6,6 +6,8 @@ import torch.optim as optim
 import numpy as np
 from pathlib import Path
 from collections import Counter
+
+_ROOT = Path(__file__).resolve().parent.parent
 from torchcrf import CRF
 import time
 from transformers import AutoTokenizer, AutoModel, get_linear_schedule_with_warmup
@@ -20,11 +22,11 @@ from sklearn.metrics import confusion_matrix
 from seqeval.metrics import classification_report as seqeval_classification_report
 from seqeval.scheme import IOB2
 
-TRAIN_FILE = Path('./data/idner2k/train_bio.txt')
-DEV_FILE = Path('./data/idner2k/dev_bio.txt')
-TEST_FILE = Path('./data/idner2k/test_bio.txt')
+TRAIN_FILE = _ROOT / "data" / "idner2k" / "train_bio.txt"
+DEV_FILE = _ROOT / "data" / "idner2k" / "dev_bio.txt"
+TEST_FILE = _ROOT / "data" / "idner2k" / "test_bio.txt"
 
-OUTPUT_DIR = Path('./outputs/experiment_attention_fusion')
+OUTPUT_DIR = _ROOT / "outputs" / "experiment_attention_fusion"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 BEST_MODEL_PATH = OUTPUT_DIR / "attention-fusion-crf-best.pt"

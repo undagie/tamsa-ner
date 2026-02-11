@@ -4,6 +4,8 @@ import torch.nn as nn
 import numpy as np
 from pathlib import Path
 from typing import Dict, List, Optional
+
+_ROOT = Path(__file__).resolve().parent.parent
 import time
 import psutil
 import pandas as pd
@@ -46,7 +48,7 @@ if torch.cuda.is_available():
     # GPU optimizations
     torch.backends.cudnn.benchmark = True
     torch.backends.cudnn.deterministic = False  # For performance
-OUTPUT_DIR = Path('./outputs/efficiency_analysis')
+OUTPUT_DIR = _ROOT / "outputs" / "efficiency_analysis"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Test configurations
@@ -227,7 +229,7 @@ class EfficiencyAnalyzer:
         result = {'model': model_name}
         
         # Load training history if available
-        history_path = Path(f'./outputs/experiment_{model_name}/training_history.csv')
+        history_path = _ROOT / "outputs" / f"experiment_{model_name}" / "training_history.csv"
         if history_path.exists():
             history_df = pd.read_csv(history_path)
             
@@ -243,7 +245,7 @@ class EfficiencyAnalyzer:
             result['epochs_to_95_percent'] = convergence_epoch
         
         # Load summary report for timing
-        summary_path = Path(f'./outputs/experiment_{model_name}/summary_report.json')
+        summary_path = _ROOT / "outputs" / f"experiment_{model_name}" / "summary_report.json"
         if summary_path.exists():
             with open(summary_path, 'r') as f:
                 summary = json.load(f)
@@ -299,7 +301,7 @@ def analyze_model_efficiency(model_name: str, model_configs: Dict):
     print(f"\nAnalyzing {model_name}...")
     
     # Load model
-    model_path = Path(f'./outputs/experiment_{model_name}')
+    model_path = _ROOT / "outputs" / f"experiment_{model_name}"
     if not model_path.exists():
         print(f"Model {model_name} not found, skipping...")
         return None

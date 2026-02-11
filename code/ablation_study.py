@@ -25,6 +25,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import sys
 
 sys.path.insert(0, str(Path(__file__).parent))
+_ROOT = Path(__file__).resolve().parent.parent
 from train_attention_fusion import (
     MultiSource_Attention_CRF,
     CharCNN,
@@ -46,12 +47,12 @@ if torch.cuda.is_available():
     torch.backends.cudnn.benchmark = True
     torch.backends.cudnn.deterministic = False
 
-OUTPUT_DIR = Path("./outputs/ablation_studies")
+OUTPUT_DIR = _ROOT / "outputs" / "ablation_studies"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-TRAIN_FILE = Path("./data/idner2k/train_bio.txt")
-DEV_FILE = Path("./data/idner2k/dev_bio.txt")
-TEST_FILE = Path("./data/idner2k/test_bio.txt")
+TRAIN_FILE = _ROOT / "data" / "idner2k" / "train_bio.txt"
+DEV_FILE = _ROOT / "data" / "idner2k" / "dev_bio.txt"
+TEST_FILE = _ROOT / "data" / "idner2k" / "test_bio.txt"
 
 HP = {
     "transformer_model": "indobenchmark/indobert-base-p1",
@@ -516,11 +517,9 @@ def main():
     full_config = ablation_configs[0]
 
     # Try to load from trained model
-    tamsa_model_path = Path(
-        "./outputs/experiment_attention_fusion/attention-fusion-crf-best.pt"
-    )
-    tamsa_vocab_path = Path("./outputs/experiment_attention_fusion/vocab.json")
-    tamsa_hp_path = Path("./outputs/experiment_attention_fusion/hyperparameters.json")
+    tamsa_model_path = _ROOT / "outputs" / "experiment_attention_fusion" / "attention-fusion-crf-best.pt"
+    tamsa_vocab_path = _ROOT / "outputs" / "experiment_attention_fusion" / "vocab.json"
+    tamsa_hp_path = _ROOT / "outputs" / "experiment_attention_fusion" / "hyperparameters.json"
 
     if full_config["load_from_trained"] and tamsa_model_path.exists():
         print("   Loading trained TAMSA model...")

@@ -5,13 +5,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 from scipy import stats
+
+_ROOT = Path(__file__).resolve().parent.parent
 from itertools import combinations
 import warnings
 warnings.filterwarnings('ignore')
 
-OUTPUT_BASE_DIR = Path('./outputs')
-MULTIPLE_RUNS_DIR = OUTPUT_BASE_DIR / 'multiple_runs'
-STATS_OUTPUT_DIR = Path('./outputs/statistical_tests')
+OUTPUT_BASE_DIR = _ROOT / "outputs"
+MULTIPLE_RUNS_DIR = OUTPUT_BASE_DIR / "multiple_runs"
+STATS_OUTPUT_DIR = _ROOT / "outputs" / "statistical_tests"
 STATS_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Plot style

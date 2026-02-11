@@ -12,13 +12,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 from scipy import stats
+
+_ROOT = Path(__file__).resolve().parent.parent
 from datetime import datetime
 import torch
 
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="scipy.stats")
 
 CHECKPOINT_FILE = "multiple_runs_progress.json"
-OUTPUT_BASE_DIR = Path("./outputs")
+OUTPUT_BASE_DIR = _ROOT / "outputs"
 MULTIPLE_RUNS_DIR = OUTPUT_BASE_DIR / "multiple_runs"
 MULTIPLE_RUNS_DIR.mkdir(parents=True, exist_ok=True)
 

@@ -62,6 +62,9 @@ token1<TAB>tag1
 
 Run from the **reproducibility_package** directory (or project root if the package is merged into the main repo). The package includes 8 models (paper Table 2): BiLSTM-CRF, BiLSTM+W2V, BiLSTM+W2V+CNN, IndoBERT-CRF, IndoBERT+BiLSTM, mBERT+BiLSTM, XLM-RoBERTa+BiLSTM, and TAMSA (`train_attention_fusion.py`).
 
+To run all experiments at once: `python run_all_experiments_and_evaluations.py`  
+To run step-by-step with progress saving: `python run_experiments_step_by_step.py`
+
 ### Basic Training
 ```bash
 python code/train_bilstm.py

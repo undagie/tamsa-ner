@@ -3,11 +3,13 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 import matplotlib.pyplot as plt
+
+_ROOT = Path(__file__).resolve().parent.parent
 import seaborn as sns
 from collections import defaultdict
 
 # Output directory
-OUTPUT_DIR = Path('./outputs/benchmark_comparison')
+OUTPUT_DIR = _ROOT / "outputs" / "benchmark_comparison"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Indonesian NER Benchmarks and State-of-the-art Results

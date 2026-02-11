@@ -5,6 +5,8 @@ import torch.nn as nn
 import numpy as np
 from pathlib import Path
 from collections import Counter
+
+_ROOT = Path(__file__).resolve().parent.parent
 import warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', category=UserWarning, module='torch')
@@ -21,12 +23,12 @@ from sklearn.metrics import confusion_matrix
 from seqeval.metrics import classification_report as seqeval_classification_report
 from seqeval.scheme import IOB2
 
-TEST_FILE = Path('./data/nerui/test_bio.txt')
+TEST_FILE = _ROOT / "data" / "nerui" / "test_bio.txt"
 
-OUTPUT_DIR = Path('./outputs/evaluation_nerui_indobert_bilstm')
+OUTPUT_DIR = _ROOT / "outputs" / "evaluation_nerui_indobert_bilstm"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-ORIGINAL_EXPERIMENT_DIR = Path('./outputs/experiment_indobert_bilstm')
+ORIGINAL_EXPERIMENT_DIR = _ROOT / "outputs" / "experiment_indobert_bilstm"
 BEST_MODEL_PATH = ORIGINAL_EXPERIMENT_DIR / "indobert-bilstm-crf-best.pt"
 VOCAB_PATH = ORIGINAL_EXPERIMENT_DIR / "vocab.json"
 HP_PATH = ORIGINAL_EXPERIMENT_DIR / "hyperparameters.json"

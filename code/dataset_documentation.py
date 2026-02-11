@@ -3,13 +3,15 @@ import numpy as np
 from pathlib import Path
 import json
 from collections import Counter, defaultdict
+
+_ROOT = Path(__file__).resolve().parent.parent
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import cohen_kappa_score
 import re
 
 # Output directory
-OUTPUT_DIR = Path('./outputs/dataset_documentation')
+OUTPUT_DIR = _ROOT / "outputs" / "dataset_documentation"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 class DatasetAnalyzer:
@@ -636,19 +638,19 @@ def main():
     
     datasets = {
         'idner2k': {
-            'train': Path('./data/idner2k/train_bio.txt'),
-            'dev': Path('./data/idner2k/dev_bio.txt'),
-            'test': Path('./data/idner2k/test_bio.txt')
+            'train': _ROOT / "data" / "idner2k" / "train_bio.txt",
+            'dev': _ROOT / "data" / "idner2k" / "dev_bio.txt",
+            'test': _ROOT / "data" / "idner2k" / "test_bio.txt"
         },
         'nerugm': {
-            'train': Path('./data/nerugm/train_bio.txt'),
-            'dev': Path('./data/nerugm/dev_bio.txt'),
-            'test': Path('./data/nerugm/test_bio.txt')
+            'train': _ROOT / "data" / "nerugm" / "train_bio.txt",
+            'dev': _ROOT / "data" / "nerugm" / "dev_bio.txt",
+            'test': _ROOT / "data" / "nerugm" / "test_bio.txt"
         },
         'nerui': {
-            'train': Path('./data/nerui/train_bio.txt'),
-            'dev': Path('./data/nerui/dev_bio.txt'),
-            'test': Path('./data/nerui/test_bio.txt')
+            'train': _ROOT / "data" / "nerui" / "train_bio.txt",
+            'dev': _ROOT / "data" / "nerui" / "dev_bio.txt",
+            'test': _ROOT / "data" / "nerui" / "test_bio.txt"
         }
     }
     

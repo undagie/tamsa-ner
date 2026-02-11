@@ -1,6 +1,8 @@
 {
   "README.md": "e3eb49282221b9b4236ba61f21661973",
   "checksums.json": "1d809a152e9aa9c533bfff7dad118929",
+  "run_all_experiments_and_evaluations.py": "1696654d0b4cf437e1bae36b03287690",
+  "run_experiments_step_by_step.py": "7d464bdbe93d99fcb7ba6bcaa04380d7",
   "code/ablation_study.py": "4db2ae8d82696889c1f1456c78759a21",
   "code/analysis.py": "70624055b72ba77ece3a6f7f1f91859c",
   "code/benchmark_comparison.py": "4600210e44525f40f337b3e2221fb810",
@@ -17,7 +19,6 @@
   "code/linguistic_error_analysis.py": "b6007c363bb192de16f4e019d104e8d0",
   "code/literature_review_generator.py": "8b8244de8397997916f3d26e62de705b",
   "code/predict_sentence.py": "7b51ccf5c7eea8202254df9ba48a4c9d",
-  "code/run_all_experiments_and_evaluations.py": "bffc7415c4de78f7914d94a1138c6d0e",
   "code/train_attention_fusion.py": "a6f3374060a82fd77f148955fca8da07",
   "code/train_bilstm.py": "e93967920770a1fc85fd2f818a143cd9",
   "code/train_bilstm_w2v.py": "17e07ed72767922c6534c77738b64b01",
@@ -72,6 +73,5 @@
   "results/training_histories/indobert_bilstm_history.csv": "d013433a88769ade7398cd0c6d63fb04",
   "results/training_histories/mbert_bilstm_history.csv": "cacc39ae77e1bed304e9b80d8843ff43",
   "results/training_histories/xlm_roberta_bilstm_history.csv": "f39bbf3f42035db64f29964aecaa5751",
-  "scripts/quick_evaluate.py": "49f7b6e08473ad3bd3e65e703956a336",
-  "scripts/run_all_experiments.py": "01bb2580dc192b0252ea95e30e0c518a"
+  "scripts/quick_evaluate.py": "49f7b6e08473ad3bd3e65e703956a336"
 }

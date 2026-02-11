@@ -4,10 +4,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 import json
+
+_ROOT = Path(__file__).resolve().parent.parent
 from collections import defaultdict
 
 # Output directory
-OUTPUT_DIR = Path('./outputs/epoch_analysis')
+OUTPUT_DIR = _ROOT / "outputs" / "epoch_analysis"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def analyze_training_histories():
@@ -20,8 +22,8 @@ def analyze_training_histories():
     results = []
     
     for model in models:
-        history_path = Path(f'./outputs/experiment_{model}/training_history.csv')
-        hp_path = Path(f'./outputs/experiment_{model}/hyperparameters.json')
+        history_path = _ROOT / "outputs" / f"experiment_{model}" / "training_history.csv"
+        hp_path = _ROOT / "outputs" / f"experiment_{model}" / "hyperparameters.json"
         
         if not history_path.exists():
             print(f"  [SKIP] {model}: No training history found")

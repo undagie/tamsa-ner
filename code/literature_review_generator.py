@@ -1,13 +1,15 @@
 import pandas as pd
 from pathlib import Path
 import json
+
+_ROOT = Path(__file__).resolve().parent.parent
 from datetime import datetime
 from collections import defaultdict
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Output directory
-OUTPUT_DIR = Path('./outputs/literature_review')
+OUTPUT_DIR = _ROOT / "outputs" / "literature_review"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Recent Indonesian NER and cross-lingual NER papers (2021-2024)

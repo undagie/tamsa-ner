@@ -37,7 +37,8 @@ if torch.cuda.is_available():
 BATCH_SIZE = 16
 
 # Output directory
-OUTPUT_DIR = Path('./outputs/cross_dataset_evaluation')
+_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_DIR = _ROOT / "outputs" / "cross_dataset_evaluation"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def load_bio_file(file_path):
@@ -199,7 +200,7 @@ def load_model_and_vocab(model_name, tag_to_ix):
     Note: Uses the tagset from the trained model (vocab_data['tag_to_ix']), 
     not the unified tagset, to avoid size mismatches.
     """
-    model_dir = Path(f'./outputs/experiment_{model_name}')
+    model_dir = _ROOT / "outputs" / f"experiment_{model_name}"
     
     with open(model_dir / 'hyperparameters.json', 'r') as f:
         hp = json.load(f)
@@ -360,9 +361,9 @@ def main():
     dataset_stats = []
     
     for dataset in DATASETS:
-        train_path = Path(f'./data/{dataset}/train_bio.txt')
-        dev_path = Path(f'./data/{dataset}/dev_bio.txt')
-        test_path = Path(f'./data/{dataset}/test_bio.txt')
+        train_path = _ROOT / "data" / dataset / "train_bio.txt"
+        dev_path = _ROOT / "data" / dataset / "dev_bio.txt"
+        test_path = _ROOT / "data" / dataset / "test_bio.txt"
         
         all_sentences = []
         for path in [train_path, dev_path, test_path]:
@@ -387,7 +388,7 @@ def main():
     all_tags = set(['O'])
     for dataset in DATASETS:
         for split in ['train', 'dev', 'test']:
-            path = Path(f'./data/{dataset}/{split}_bio.txt')
+            path = _ROOT / "data" / dataset / f"{split}_bio.txt"
             sentences = load_bio_file(path)
             for _, tags in sentences:
                 all_tags.update(tags)
@@ -405,7 +406,7 @@ def main():
         print(f"\n--- Evaluating models trained on {train_dataset.upper()} on {test_dataset.upper()} test set ---")
         
         # Load test data
-        test_path = Path(f'./data/{test_dataset}/test_bio.txt')
+        test_path = _ROOT / "data" / test_dataset / "test_bio.txt"
         test_sentences = load_bio_file(test_path)
         
         for model_name in MODELS:
@@ -413,7 +414,7 @@ def main():
             
             try:
                 # Check if model exists for this training dataset
-                model_dir = Path(f'./outputs/experiment_{model_name}')
+                model_dir = _ROOT / "outputs" / f"experiment_{model_name}"
                 if not model_dir.exists():
                     print(f"Model {model_name} not found, skipping...")
                     continue

@@ -7,11 +7,12 @@ import seaborn as sns
 from pathlib import Path
 import numpy as np
 
+_ROOT = Path(__file__).resolve().parent.parent
 matplotlib.rcParams["font.family"] = "Times New Roman"
 matplotlib.rcParams["font.size"] = 10
 
-OUTPUT_DIR = Path("./outputs")
-FIGURES_DIR = Path("./paper_figures")
+OUTPUT_DIR = _ROOT / "outputs"
+FIGURES_DIR = _ROOT / "paper_figures"
 FIGURES_DIR.mkdir(exist_ok=True)
 
 MODELS = {
@@ -300,7 +301,7 @@ def plot_ablation_study():
     """Generate ablation study figure from actual experimental results."""
     print("Generating Figure 6: Ablation Study...")
 
-    ablation_path = Path("outputs/ablation_studies/ablation_results.csv")
+    ablation_path = _ROOT / "outputs" / "ablation_studies" / "ablation_results.csv"
 
     if not ablation_path.exists():
         print(f"Warning: {ablation_path} not found. Skipping ablation study plot.")
