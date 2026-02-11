@@ -256,31 +256,86 @@ class ExperimentRunner:
 
     def show_menu(self):
         print("\n" + "=" * 60)
-        print("Indonesian NER Experiment Runner (Reproducibility Package)")
+        print("  Indonesian NER Experiment Runner")
         print("=" * 60)
-        print("\nOptions:")
-        print("1. Run all experiments (complete pipeline)")
-        print("2. Run specific stage")
-        print("3. Run epoch analysis (requires completed training)")
-        print("4. Run multiple runs analysis (requires completed training)")
-        print("5. Run statistical tests (requires multiple runs)")
-        print("6. Show progress")
-        print("7. Reset progress")
-        print("8. Exit")
+        print("\n  PIPELINE")
+        print("  " + "-" * 8)
+        print("  1. Main pipeline")
+        print("  2. Run specific stage")
+        print("\n  ADVANCED ANALYSIS (run after training)")
+        print("  " + "-" * 17)
+        print("  3. Epoch analysis")
+        print("  4. Multiple runs (5 seeds)")
+        print("  5. Statistical tests")
+        print("\n  UTILITIES")
+        print("  " + "-" * 9)
+        print("  6. Show progress")
+        print("  7. Reset progress")
+        print("  8. Exit")
 
-        choice = input(f"\nSelect option (1-8): ").strip()
+        choice = input(f"\n  Select (1-8): ").strip()
         return choice
 
-    def show_stage_menu(self):
-        print("\nAvailable Stages:")
-        for i, (key, info) in enumerate(EXPERIMENT_STAGES.items(), 1):
-            completed = len(self.progress["stage_progress"].get(key, []))
-            total = len(info["scripts"])
-            print(f"{i}. {info['name']} ({completed}/{total} completed)")
+    def _get_stage_dependency_note(self, stage_key):
+        """Return dependency note for a stage, or empty string if none."""
+        if stage_key in ("stage_6_epoch_analysis", "stage_7_multiple_runs"):
+            if not self.has_training_completed():
+                return " [requires training]"
+        elif stage_key == "stage_8_statistical_tests":
+            if not self.has_multiple_runs_completed():
+                return " [requires multiple runs]"
+        elif stage_key == "stage_5_analysis":
+            has_eval = len(self.progress["stage_progress"].get("stage_4_evaluation", [])) > 0
+            if not has_eval:
+                return " [requires evaluation]"
+        return ""
 
-        choice = input(
-            f"\nSelect stage (1-{len(EXPERIMENT_STAGES)}) or 0 to go back: "
-        ).strip()
+    def show_stage_menu(self):
+        print("\n" + "=" * 60)
+        print("  Run Specific Stage")
+        print("=" * 60)
+
+        print("\n  TRAINING")
+        print("  " + "-" * 8)
+        for i in range(1, 4):
+            key = list(EXPERIMENT_STAGES.keys())[i - 1]
+            info = EXPERIMENT_STAGES[key]
+            done = len(self.progress["stage_progress"].get(key, []))
+            total = len(info["scripts"])
+            dep = self._get_stage_dependency_note(key)
+            print(f"  {i}. {info['name']} ({done}/{total}){dep}")
+
+        print("\n  EVALUATION")
+        print("  " + "-" * 10)
+        key = "stage_4_evaluation"
+        info = EXPERIMENT_STAGES[key]
+        done = len(self.progress["stage_progress"].get(key, []))
+        total = len(info["scripts"])
+        dep = self._get_stage_dependency_note(key)
+        print(f"  4. {info['name']} ({done}/{total}){dep}")
+
+        print("\n  ANALYSIS")
+        print("  " + "-" * 8)
+        for i in range(5, 9):
+            key = list(EXPERIMENT_STAGES.keys())[i - 1]
+            info = EXPERIMENT_STAGES[key]
+            done = len(self.progress["stage_progress"].get(key, []))
+            total = len(info["scripts"])
+            dep = self._get_stage_dependency_note(key)
+            print(f"  {i}. {info['name']} ({done}/{total}){dep}")
+
+        print("\n  OUTPUT")
+        print("  " + "-" * 6)
+        key = "stage_9_figures"
+        info = EXPERIMENT_STAGES[key]
+        done = len(self.progress["stage_progress"].get(key, []))
+        total = len(info["scripts"])
+        dep = self._get_stage_dependency_note(key)
+        print(f"  9. {info['name']} ({done}/{total}){dep}")
+
+        print("\n  0. Back to main menu")
+
+        choice = input(f"\n  Select (0-9): ").strip()
         return choice
 
     def show_progress(self):

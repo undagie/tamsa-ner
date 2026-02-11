@@ -19,7 +19,7 @@ import torch
 
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="scipy.stats")
 
-CHECKPOINT_FILE = "multiple_runs_progress.json"
+CHECKPOINT_FILE = _ROOT / "multiple_runs_progress.json"
 OUTPUT_BASE_DIR = _ROOT / "outputs"
 MULTIPLE_RUNS_DIR = OUTPUT_BASE_DIR / "multiple_runs"
 MULTIPLE_RUNS_DIR.mkdir(parents=True, exist_ok=True)
@@ -57,7 +57,7 @@ plt.rcParams.update(
 
 def load_checkpoint():
     """Load progress from checkpoint file."""
-    if Path(CHECKPOINT_FILE).exists():
+    if CHECKPOINT_FILE.exists():
         with open(CHECKPOINT_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     return {
@@ -111,13 +111,16 @@ def run_training_with_seed(script_name, seed, run_id, output_subdir):
     env["PYTHONHASHSEED"] = str(seed)
     env["RANDOM_SEED"] = str(seed)
     env["TORCH_SEED"] = str(seed)
+    training_script_path = _ROOT / "code" / script_name
+    path_repr = repr(str(training_script_path))
     wrapper_script_content = f"""#!/usr/bin/env python
-# Wrapper: set RNG seeds then exec training script
+# Wrapper: set RNG seeds then run training script via runpy (preserves __file__)
 import random
 import numpy as np
 import torch
 import os
 import sys
+import runpy
 
 seed = {seed}
 random.seed(seed)
@@ -131,9 +134,9 @@ if torch.cuda.is_available():
 os.environ['PYTHONHASHSEED'] = str(seed)
 os.environ['RANDOM_SEED'] = str(seed)
 os.environ['TORCH_SEED'] = str(seed)
-exec(open(r'{script_name}', encoding='utf-8').read())
+runpy.run_path({path_repr}, run_name='__main__')
 """
-    wrapper_path = Path(f"_temp_wrapper_{run_id}_{script_name}")
+    wrapper_path = _ROOT / f"_temp_wrapper_{run_id}_{script_name}"
     with open(wrapper_path, "w", encoding="utf-8") as f:
         f.write(wrapper_script_content)
 
@@ -141,6 +144,7 @@ exec(open(r'{script_name}', encoding='utf-8').read())
         start_time = time.time()
         process = subprocess.Popen(
             [sys.executable, str(wrapper_path)],
+            cwd=str(_ROOT),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             universal_newlines=True,

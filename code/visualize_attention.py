@@ -364,7 +364,6 @@ def main():
     # Note: For full quantitative analysis, we should iterate over the test set.
     # Here we will process a subset of the test file to generate the distribution plot.
     
-    TEST_FILE = _ROOT / "data" / "idner2k" / "test_bio.txt"
     if not TEST_FILE.exists():
         print("Test file not found, skipping quantitative analysis.")
         return

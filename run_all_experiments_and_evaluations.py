@@ -3,19 +3,13 @@ Run all training, evaluation, and analysis from reproducibility_package root.
 Scripts are executed from code/ with current working directory = package root.
 """
 
-import os
 import subprocess
 import sys
 import time
 from pathlib import Path
 
-# When run from reproducibility_package root, scripts live in code/
 PACKAGE_ROOT = Path(__file__).resolve().parent
 CODE_DIR = PACKAGE_ROOT / "code"
-
-# ============================================================================
-# CONFIGURATION: List of Training and Evaluation Scripts
-# ============================================================================
 
 TRAINING_SCRIPTS = [
     "train_bilstm.py",
@@ -39,11 +33,19 @@ EVALUATION_SCRIPTS = [
     "evaluate_attention_on_nerui.py",
 ]
 
-ANALYSIS_SCRIPT = "analysis.py"
-
-# ============================================================================
-# UTILITY FUNCTIONS
-# ============================================================================
+ANALYSIS_SCRIPTS = [
+    "analysis.py",
+    "cross_dataset_evaluation.py",
+    "per_entity_analysis.py",
+    "ablation_study.py",
+    "linguistic_error_analysis.py",
+    "efficiency_analysis.py",
+    "benchmark_comparison.py",
+    "dataset_documentation.py",
+    "literature_review_generator.py",
+    "visualize_attention.py",
+    "generate_paper_figures.py",
+]
 
 
 def check_script_exists(script_name):
@@ -105,11 +107,6 @@ def run_script(script_name, script_type="script", index=None, total=None):
         return False
 
 
-# ============================================================================
-# MAIN FUNCTIONS
-# ============================================================================
-
-
 def run_all_training():
     print("\n" + "#" * 80)
     print("# PHASE 1: TRAINING ALL MODELS")
@@ -152,19 +149,28 @@ def run_all_evaluations():
     return successful, failed
 
 
-def run_analysis():
+def run_all_analysis():
     print("\n" + "#" * 80)
-    print("# PHASE 3: EXPERIMENT RESULTS ANALYSIS")
+    print("# PHASE 3: COMPREHENSIVE ANALYSIS AND FIGURE GENERATION")
     print("#" * 80)
-    if not check_script_exists(ANALYSIS_SCRIPT):
-        print(f"[INFO] Analysis script '{ANALYSIS_SCRIPT}' not found. Skipped.")
-        return False
-    success = run_script(ANALYSIS_SCRIPT, script_type="ANALYSIS")
-    if success:
-        print(
-            "\n[SUCCESS] Analysis completed. Results in 'comparison_results' or 'outputs/'"
-        )
-    return success
+    total_scripts = len(ANALYSIS_SCRIPTS)
+    successful = 0
+    failed = []
+    for i, script in enumerate(ANALYSIS_SCRIPTS, 1):
+        if not check_script_exists(script):
+            print(f"[INFO] Skipping {script} (not in package)")
+            continue
+        if run_script(script, script_type="ANALYSIS", index=i, total=total_scripts):
+            successful += 1
+        else:
+            failed.append(script)
+            print(f"\n[WARNING] Analysis {script} failed. Continuing...")
+    print("\n" + "-" * 80)
+    print(f"Analysis Summary: {successful} completed")
+    if failed:
+        print(f"Failed: {', '.join(failed)}")
+    print("-" * 80)
+    return successful, failed
 
 
 def main():
@@ -175,6 +181,7 @@ def main():
     print("=" * 80)
     print(f"\nTotal Training: {len(TRAINING_SCRIPTS)}")
     print(f"Total Evaluation: {len(EVALUATION_SCRIPTS)}")
+    print(f"Total Analysis: {len(ANALYSIS_SCRIPTS)}")
     print("\n[INFO] Starting in 3 seconds... (Ctrl+C to cancel)")
     try:
         for i in range(3, 0, -1):
@@ -187,7 +194,7 @@ def main():
 
     training_successful, training_failed = run_all_training()
     evaluation_successful, evaluation_failed = run_all_evaluations()
-    analysis_success = run_analysis()
+    analysis_successful, analysis_failed = run_all_analysis()
 
     overall_duration = time.time() - overall_start_time
     hours = int(overall_duration // 3600)
@@ -208,13 +215,16 @@ def main():
     print(f"\nEvaluation: {evaluation_successful}/{len(EVALUATION_SCRIPTS)}")
     if evaluation_failed:
         print(f"  Failed: {', '.join(evaluation_failed)}")
-    print(f"\nAnalysis: {'OK' if analysis_success else 'Failed or skipped'}")
+    print(f"\nAnalysis: {analysis_successful} completed")
+    if analysis_failed:
+        print(f"  Failed: {', '.join(analysis_failed)}")
     print(f"\nTotal time: {time_str}")
     print("\n[RESULT LOCATIONS]")
     print("  - outputs/experiment_*/")
     print("  - outputs/evaluation_nerui_*/")
-    if analysis_success:
+    if analysis_successful > 0:
         print("  - comparison_results/")
+        print("  - outputs/epoch_analysis/, outputs/attention_visualization/, etc.")
     print()
 
 
